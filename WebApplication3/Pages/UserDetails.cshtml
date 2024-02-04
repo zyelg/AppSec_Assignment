@@ -1,0 +1,16 @@
+﻿@page
+@model UserDetailsModel
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<h1>User Details</h1>
+
+<div>
+    <h3>Welcome, @Model.ApplicationUser.FirstName!</h3>
+    <p><strong>Email:</strong> @Model.ApplicationUser.Email</p>
+    <p><strong>First Name:</strong> @Model.ApplicationUser.FirstName</p>
+    <p><strong>Last Name:</strong> @Model.ApplicationUser.LastName</p>
+    <p><strong>NRIC:</strong> @Model.ApplicationUser.NRIC</p>
+</div>
+

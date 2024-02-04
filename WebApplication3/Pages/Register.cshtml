@@ -1,0 +1,130 @@
+﻿@page
+@model WebApplication3.Pages.RegisterModel
+
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using Microsoft.AspNetCore.DataProtection
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@using WebApplication3.Model
+@using WebApplication3.ViewModels
+@using Microsoft.AspNetCore.Http
+@using Microsoft.Extensions.Configuration
+
+
+
+@{
+    var genders = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "Male", Text = "Male" },
+        new SelectListItem { Value = "Female", Text = "Female" },
+        new SelectListItem { Value = "Other", Text = "Other" }
+    };
+
+    var whoAmIOptions = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "Tier 1", Text = "Tier 1 Member" },
+        new SelectListItem { Value = "Tier 2", Text = "Tier 2 Member" },
+        new SelectListItem { Value = "Tier 3", Text = "Tier 3 Member" }
+    };
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-sm-12 col-md-12 col-lg-6">
+            <h1 class="mb-3">Register</h1>
+
+            <form method="post" enctype="multipart/form-data" onsubmit="return validatePassword();">
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">               
+                        <label class="form-label" asp-for="RModel.FirstName">First Name</label>
+                        <input type="text" asp-for="RModel.FirstName" class="form-control" />
+                        <span asp-validation-for="RModel.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" asp-for="RModel.LastName">Last Name</label>
+                        <input type="text" asp-for="RModel.LastName" class="form-control" />
+                        <span asp-validation-for="RModel.LastName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" asp-for="RModel.Password">Password</label>
+                        <input type="password" asp-for="RModel.Password" class="form-control" />
+                        <span asp-validation-for="RModel.Password" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" asp-for="RModel.ConfirmPassword">Confirm Password</label>
+                        <input type="password" asp-for="RModel.ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="RModel.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="RModel.Email">Email Address</label>
+                    <input type="email" asp-for="RModel.Email" class="form-control" />
+                    <span asp-validation-for="RModel.Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Gender</label>
+                    <select asp-for="RModel.Gender" class="form-control">
+                        <option value="">Select Gender</option>
+                        @foreach (var gender in genders)
+                        {
+                            <option value="@gender.Value">@gender.Text</option>
+                        }
+                    </select>
+                    <span asp-validation-for="RModel.Gender" class="text-danger"></span>
+                </div>  
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" asp-for="RModel.NRIC">NRIC</label>
+                        <input type="text" asp-for="RModel.NRIC" class="form-control" />
+                        <span asp-validation-for="RModel.NRIC" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" asp-for="RModel.DateOfBirth">Date of Birth</label>
+                        <input type="date" asp-for="RModel.DateOfBirth" class="form-control" />
+                        <span asp-validation-for="RModel.DateOfBirth" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Who Am I</label>
+                    <select asp-for="RModel.WhoAmI" class="form-control">
+                        <option value="">Select Who Am I</option>
+                        @foreach (var option in whoAmIOptions)
+                        {
+                            <option value="@option.Value">@option.Text</option>
+                        }
+                    </select>
+                    <span asp-validation-for="RModel.WhoAmI" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        function validatePassword() {
+            var password = document.getElementById("RModel_Password").value;
+            var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{12,}$/;
+            if (!regex.test(password)) {
+                alert("Password must contain at least 12 characters, including at least one lowercase letter, one uppercase letter, one number, and one special character.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+}
